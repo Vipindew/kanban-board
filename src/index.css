@@ -1,0 +1,532 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --darkest : #2b2d42;
+    --gray : #8d99ae;
+    --teal : #d90429;
+    --white : #edf2f4;
+    --red : #ef233c;
+    --defaultFont : 16px;
+}
+
+body {
+    background-color: var(--darkest);
+}
+
+h1 {
+    display: flex;
+    color: var(--white);
+    justify-content: center;
+    margin: 20px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    top: 0px;
+}
+
+.add-button{
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--defaultFont) * 2);
+    width: calc(var(--defaultFont) * 2);
+    font-size:calc(var(--defaultFont) * 2);
+    font-weight: bold;
+    border: 2px solid var(--white);
+    background-color: var(--darkest);
+    transition: left 0.2s, top, 0.2s, width 0.2s, background-color 0.2s;
+    color: var(--white);
+    border-radius: 5px;
+}
+
+.add-column {
+  position: absolute;
+  display: flex;
+  min-width: 270px;
+  height: 50px;
+  transition: left 0.2s, top 0.2s;
+  margin-right: 20px;
+}
+
+.add-column input {
+    font-size: var(--defaultFont);
+    font-weight: bold;
+    color: var(--darkest);
+    background-color: var(--white);
+    border-radius: 5px;
+}
+
+.add-column button {
+    height: 40px;
+    width: 40px;
+    font-size:calc(var(--defaultFont) * 2);
+    font-weight: bold;
+    border-radius: 5px;
+    color: var(--darkest);
+    background-color: var(--white);
+}
+
+.container-column,
+.container-card {   
+    display: flex; 
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--defaultFont);
+    font-weight: bold;
+    color: var(--darkest);
+    background-color: var(--white); 
+    transition: left 0.2s, top, 0.2s, width 0.2s, background-color 0.2s;
+    cursor: pointer; 
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.container-column img {
+    width: 20px;
+    height: 20px;
+    transition: width 0.1s, height 0.1s;
+}
+
+.container-column .settings {
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.container-column img:hover,
+.container-card img:hover {
+    width: 25px;
+    height: 25px;
+}
+
+.column-name,
+.card-name {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.column-delete {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.delete-button{
+    margin-left: auto;
+    margin-right: 10px;
+    background-color: navy;
+    color: white;
+    height: 40px;
+    font-size: var(--defaultFont);
+    font-weight: bold; 
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.boards {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ui-boards {
+    color: var(--darkest);
+    position: relative;
+    display: flex;
+    margin: 20px auto;
+    align-items: center;
+    font-weight: bold;
+    font-size: var(--defaultFont);
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--white);
+    height: 60px;
+}
+
+.ui-boards:hover {
+    box-shadow: 0px 0px 20px var(--red);
+}
+
+.ui-boards div {
+    display: flex;
+    overflow-x: visible;
+    overflow-y: hidden;
+    width: 85%;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.add-board {
+    display: flex;
+    color: var(--white);
+    font-weight: bold;
+    border: 2px solid var(--white);
+    font-size: var(--defaultFont);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--darkest);
+    margin: 10px auto;
+    min-width: 300px;
+}
+
+.add-board:hover {
+    box-shadow: 0px 0px 20px var(--red);
+}
+
+.dustbin {
+    margin-left: auto;
+    margin-left: auto;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    transition: width 0.1s, height 0.1s;
+}
+
+.dustbin:hover {
+    width: 25px;
+    height: 25px;
+}
+
+.card-box {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    top: calc(10% + 50px);
+    width: 500px;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 40px black;
+}
+
+.popup-box {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    top: calc(10% + 50px);
+    width: 450px;
+    color: var(--darkest);
+    height: auto;
+    background-color: var(--white);
+    z-index: 1001;
+    border-radius: 20px;
+    box-shadow: 40px 40px 40px rgba(0, 0, 0, 0.2);
+}
+
+.popup-box .board-form {
+    margin: 40px 20px 10px;
+}
+
+.popup-box .board-name, .create-board {
+    width: 100%;
+    height: 35px;
+    font-size: var(--defaultFont);
+    border-radius: 5px;
+}
+
+.popup-box .board-name {
+   border: 2px solid var(--darkest);
+   background-color: var(--white);
+   margin: 10px auto;
+}
+
+.popup-box .private {
+    height: var(--defaultFont);
+    width: var(--defaultFont);
+    border: 10px solid var(--darkest);
+    vertical-align: middle;
+    margin: auto 5px;
+}
+
+.popup-box .private-label {
+    font-size: var(--defaultFont);
+    margin: auto 5px;
+    vertical-align: middle;
+    height: var(--defaultFont);
+    width: var(--defaultFont);
+}
+
+.popup-box .search {
+    margin: 0px 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+}
+
+.popup-box .search input {
+    width: 100%;
+    font-size: var(--defaultFont);
+    height: 35px;
+    border-radius: 5px;
+    background-color: var(--white);
+    border: 2px solid var(--darkest);;
+}
+
+.create-card input {
+    font-size: var(--defaultFont);
+    height: 35px;
+    border-radius: 5px;
+    background-color: white;
+    border: 2px solid var(--darkest);
+}
+
+.create-card input[type=color], input[type=datetime-local] {
+    width : 200px;
+    height: 50px;
+    margin-left: auto;
+}
+
+.create-card label {
+    display: flex;
+    align-items: center;
+    color: var(--darkest);
+}
+
+.create-card textarea{
+    height: 100px;
+    font-size: var(--defaultFont);
+    background-color: white;
+    color: var(--darkest);
+    border: 2px solid var(--darkest);
+    border-radius: 5px;
+}
+
+.create-card button {
+    height: 35px;
+    font-size: var(--defaultFont);
+    font-weight: bold;
+    background-color: var(--red);
+    color: var(--white);
+    border: 2px solid var(--darkest);
+    border-radius: 5px;
+}
+
+.create-card button:hover{
+    box-shadow: 0px 0px 5px var(--red);
+}
+
+.popup-box .search form {
+    display: flex;
+}
+
+.popup-box .search button,
+.popup-box .added-members li div{
+    display: flex;
+    font-size: var(--defaultFont);
+    width: 330px;
+    min-height: 35px;
+    border-radius: 5px;
+    background-color: var(--white);
+    color: black;
+    border: 2px solid var(--darkest);
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: left;
+    padding: 5px;
+}
+
+.added-members li {
+    display: flex;
+}
+
+.popup-box .search select, .added-members button {
+    font-size: var(--defaultFont);
+    width: 70px;
+    min-height: 35px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: var(--teal);
+    border: none;
+    font-weight: bold;
+    color: var(--white);
+    margin-left: auto;
+    padding: 0px;
+}
+
+.popup-box .create-board {
+    background-color: var(--teal);
+    color: var(--white);
+    font-weight: bold;
+    border: none;
+    margin: 10px auto 40px;
+}
+
+.create-card {
+    display: flex;
+    flex-flow: column;
+    margin: 40px 20px;
+    gap: 10px;
+}
+
+.popup-box .added-members {
+    text-align: left;
+    overflow: auto;
+    display: flex;
+    flex-flow: column;
+    font-size: var(--defaultFont);
+    gap: 10px;
+    margin: 20px 20px 40px;
+}
+
+.popup {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+}
+
+.login-body {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    max-height: fit-content;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-page {
+    width: 600px;
+    display: flex;
+    flex-flow: column;
+    padding: 50px;
+    gap: 20px;
+    height: 800px;
+    border-radius: 10px;
+    background-color: var(--white);
+    box-shadow: 0px 0px 5px var(--red);
+}
+
+.login-page form {
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+}
+
+.login-page div {
+    display: flex;
+    margin: 50px auto;
+    gap: 20px;
+}
+
+.login-page input {
+    height: 40px;
+    font-size: calc(var(--defaultFont) * 1.25);
+    border-radius: 5px;
+    border: 2px solid var(--darkest);
+    text-align: center;
+}
+
+.login-page form button {
+    height: 40px;
+    background-color: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: calc(var(--defaultFont) * 1.5);
+}
+
+#login-button,
+#signup-button {
+    height: 50px;
+    width: 240px;
+    background-color: var(--gray);
+    color: var(--darkest);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: calc(var(--defaultFont) * 1.5);
+}
+
+.login-page form button:hover {
+    box-shadow:  0px 0px 10px var(--red);
+}
+
+.login-page div button:hover {
+    box-shadow: 0px 0px 10px var(--gray);
+}
+
+.close-button {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    right: 0px;
+    margin: 10px 10px 0px 0px;
+    border: none;
+    border-radius: 5px;
+    height: calc(var(--defaultFont) + 4px);
+    width: calc(var(--defaultFont) + 4px);
+    color: var(--white);
+    font-size: var(--defaultFont);
+    background-color: red;
+}
+
+.close-button:hover {
+    box-shadow: 0px 0px 4px red;
+}
+
+.menubar {
+    background-color: var(--red);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    z-index: 1200;
+}
+
+.menubar a {
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    background-color: var(--darkest);
+    border: 2px solid var(--gray);
+    border-radius: 5px;
+    font-size: var(--defaultFont);
+    font-weight: bold;
+    height: 30px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.menubar a:hover {
+    box-shadow: 0px 0px 10px var(--gray);
+}
+
+.menubar .push-right {
+    margin-left: auto;
+}
+ 
