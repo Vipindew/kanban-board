@@ -95,6 +95,7 @@ button:hover{
     transition: left 0.2s, top, 0.2s, width 0.2s, background-color 0.2s;
     cursor: pointer; 
     border-radius: 5px;
+    padding: 10px;
 }
 
 .container-column img {
@@ -122,12 +123,11 @@ button:hover{
 }
 
 .card-name {
-    display: block;
+    display: grid;
     align-items: center;
     overflow-x: hidden;
     overflow-y: auto;
     height: inherit;
-    padding: 10px;
 }
 
 .column-delete {
