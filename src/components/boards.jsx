@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import image from "../Images/Dustbin.png"
+import image  from "/home/vipin/logInPage/src/Images/Dustbin.png";
 import { errorFunction } from "./errorfunction";
 import _ from 'lodash';
 import { backendURL } from "./url";
@@ -27,7 +27,7 @@ export function Boards(){
 
     useEffect(() => {if (!isPrivate) {
         setSuggestedMembers([]);
-        setMembers([]);
+        setMembers({});
     }}, [isPrivate])
 
     async function getBoards() {
@@ -67,7 +67,7 @@ export function Boards(){
         try {
             setBoardList(d => d.filter(e => e.id !== id))
             const response = await axios.delete(backendURL + "/boards", {withCredentials : true, data : {id : id}});
-            if (!_.isEqual(boardList, response.data)) setBoardList(response.data);
+            setBoardList(response.data);
         } catch(error) {
             errorFunction(error)
         }
@@ -106,7 +106,7 @@ export function Boards(){
                     <ul>             
                         {boardList.filter(e => e.owner).map((element,index) => (<li className="ui-boards" key={index} onClick={() => {navigate(`/homepage/${element.id}/${element.name}`)}}>
                             <div>{element.name}</div>
-                            {element.owner ? <img className="dustbin" onClick={(e) => deleteBoard(e, element.id)} src={image} alt="Delete"></img> : ""}
+                            <img className="dustbin" onClick={(e) => deleteBoard(e, element.id)} src={image} alt="Delete"></img>
                         </li>))}
                     </ul>
                 </div>
@@ -115,7 +115,6 @@ export function Boards(){
                     <ul>             
                         {boardList.filter(e => !e.owner && e.public).map((element,index) => (<li className="ui-boards" key={index} onClick={() => {navigate(`/homepage/${element.id}/${element.name}`)}}>
                             <div>{element.name}</div>
-                            {element.owner ? <img className="dustbin" onClick={(e) => deleteBoard(e, element.id)} src={image} alt="Delete"></img> : ""}
                         </li>))}
                     </ul>
                 </div>
@@ -124,7 +123,6 @@ export function Boards(){
                     <ul>             
                         {boardList.filter(e => !e.owner && !e.public).map((element,index) => (<li className="ui-boards" key={index} onClick={() => {navigate(`/homepage/${element.id}/${element.name}`)}}>
                             <div>{element.name}</div>
-                            {element.owner ? <img className="dustbin" onClick={(e) => deleteBoard(e, element.id)} src={image} alt="Delete"></img> : ""}
                         </li>))}
                     </ul>
                 </div>

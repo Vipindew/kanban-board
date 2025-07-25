@@ -4,8 +4,8 @@ import { data, useLocation, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../App";
 import { errorFunction } from "./errorfunction";
 import _ from 'lodash';
-import image from "../Images/Dustbin.png"
-import settings from "../Images/settings.png"
+import settings from "/home/vipin/logInPage/src/Images/settings.png";
+import image  from "/home/vipin/logInPage/src/Images/Dustbin.png";
 import { backendURL } from "./url";
 
 function Homepage () {
@@ -95,6 +95,7 @@ function Homepage () {
             const [newDataTable, newRole] = response.data;
             setDataTable(newDataTable);
             role.current = newRole;
+            console.log(newRole);
         }
         catch(error){
             errorFunction(error);
@@ -172,12 +173,15 @@ function Homepage () {
 
     function openCardPopup(card) {
 
+        const created_date = new Date(card.created_at * 1000);
+        const expire_date = new Date(card.expire_at * 1000);
+
         const popup = <div className="popup" onClick={closeCardPopup}>
             <div style={{backgroundColor : card.color, color : card.text_color}} onClick={(e) => e.stopPropagation()} className="card-box">
                 <button onClick={closeCardPopup} className="close-button">✖</button>
                 <h2>Name : {card.name}</h2>
-                <div className="created">Created at : {Date(card.created_at)}</div>
-                {card.expire_at && <div className="expire">Expiry : {Date(card.expire_at)}</div>}
+                <div className="created">Created at : {created_date.toLocaleString()}</div>
+                {card.expire_at && <div className="expire">Expiry : {expire_date.toLocaleString()}</div>}
                 <div className="owner">Created by : {card.owner}</div>
                 <h2>Description</h2>
                 <div>{card.description}</div>
@@ -205,7 +209,9 @@ function Homepage () {
     }
 
     function editCardPopup(card) {
-        
+
+        const expire_date = new Date(card.expire_at * 1000);
+                    
         const popup = <div className="popup" onClick={closeCardPopup}>
             <div className="popup-box" onClick={(e) => {e.stopPropagation()}}>
                 <button onClick={closeCardPopup} className="close-button">✖</button>
@@ -218,7 +224,7 @@ function Homepage () {
                     <textarea name="description" defaultValue={card.description} placeholder="Description" type="textbox"></textarea>
                     <label> Text Color : <input name="color" type="color" defaultValue={card.text_color}></input></label>
                     <label> Background Color : <input name="text_color" type="color" defaultValue={card.color}></input></label>
-                    <label> Expiry : <input name="expireAt" defaultValue={card.expire_at && (new Date(card.expire_at * 1000)).toISOString().slice(0, 16)} type="datetime-local"></input></label>
+                    <label> Expiry : <input name="expireAt" defaultValue={card.expire_at && `${expire_date.getFullYear()}-${(expire_date.getMonth()+1).toString().padStart(2,'0')}-${expire_date.getDate().toString().padStart(2,'0')}T${expire_date.getHours().toString().padStart(2,'0')}:${expire_date.getMinutes().toString().padStart(2,'0')}`} type="datetime-local"></input></label>
                     <button type="submit">Save</button>
                 </form>
             </div>
@@ -261,41 +267,41 @@ function Homepage () {
     function printTable() {
         return (<div className="container">
             {dataTable.map((element, index) => (
-                <div key={"c" + element.id} className="container-column" onDragStart={(e) => handleDragStart(e, index)} draggable='true' 
+                <div key={"c" + element.id} className="container-column" onDragStart={(e) => handleDragStart(e, index)} draggable={isEditor()} 
                 style={{height : columnHeight, width : widthX, top : marginHeading, left : leftPosition(index), backgroundColor : 'white'}}>
                     <div className="column-delete">
                         <div className="column-name">{element.name}</div>
                         {isEditor() && <>
-                            <img className="settings" onClick={() => createColumnPopup(element)} src={settings}></img>
-                            <img src={image} onClick={() => {deleteColumn(element.id)}}></img>
+                            <img className="settings" onClick={() => createColumnPopup(element)} alt="settings" src={settings}></img>
+                            <img src={image} alt="delete" onClick={() => {deleteColumn(element.id)}}></img>
                         </>}
                     </div>
                     {element.cards.map((e,i) => (
-                        <div key={"r" + e.id} className="container-card" onDoubleClick={() => {openCardPopup(e)}} onDragStart={(ev) => handleDragStart(ev, index, i)} draggable='true' 
+                        <div key={"r" + e.id} className="container-card" onDoubleClick={() => {openCardPopup(e)}} onDragStart={(ev) => handleDragStart(ev, index, i)} draggable={isEditor()} 
                         style={{height : heightY, width: widthX, left : '0px', top : topPosition(i), backgroundColor : e.color, color: e.text_color}}>
                             <div className="card-name" >{e.name}</div>
                             {isEditor() && <>
                                 <img className="settings" onClick={() => {
                                     editCardPopup(e);
-                                    }} src={settings}></img>
-                                <img src={image} onClick={() => {
-                                    deleteCard(e.id);
-                                    e.stopPropagation();
+                                    }} alt="settings" src={settings}></img>
+                                <img src={image} alt="delete" onClick={(ev) => {
+                                    deleteCard(e.id, element.id);
+                                    ev.stopPropagation();
                                 }}></img>
                             </>}
                         </div>
                     ))}
-                    {isEditor() && <button onClick={() => {
+                    {isEditor() ? <button onClick={() => {
                         currentColumn.current = element.id;
                         setAddCardPop(true);
                     }} className="add-button"
-                    style={{top : topPosition(element.cards.length)}}>+</button>}
+                    style={{top : topPosition(element.cards.length)}}>+</button> : <div className="space" style={{top : topPosition(element.cards.length)}}></div>}
                 </div>
             ))}
-            <form style={{height : columnHeight, left : leftPosition(dataTable.length), top : marginHeading + "px"}} className='add-column' onSubmit={(e) => createColumn(e)}>
-                <input autoComplete='on' type='text'></input>
+            {isEditor() ? <form style={{height : columnHeight, left : leftPosition(dataTable.length), top : marginHeading + "px"}} className='add-column' onSubmit={(e) => createColumn(e)}>
+                <input autoComplete='on' type='text' placeholder="Add Column"></input>
                 <button type='submit'>+</button>
-            </form>    
+            </form> : <div style={{left : dataTable.length * (widthX + gapX) + "px"}} className="space"></div>}    
         </div>);
     }
 
@@ -591,8 +597,9 @@ function Homepage () {
 
     }
 
-    async function deleteCard(id) {
+    async function deleteCard(id,column_id) {
         try {
+            setDataTable(d => d.map(element => element.id === column_id ? {...element, cards : element.cards.filter(e => e.id !== id)}: element))
             const response = await axios.delete(backendURL + "/card", {withCredentials : true, data : {id : id}});
             changeData(response);
         } catch(error){
@@ -605,7 +612,7 @@ function Homepage () {
         setAddCardPop(false);
     }
 
-    async function createCard(name, description, color, text_color, dateTime){
+    async function createCard(name, description, text_color, color, dateTime){
 
         try {
             closeCard();
@@ -635,8 +642,8 @@ function Homepage () {
                 <div className="popup-box" onClick={(e) => {e.stopPropagation()}}>
                     <button onClick={closeCard} className="close-button">✖</button>
                     <form className="create-card" onSubmit={(e) => {
-                        console.log(e);
                         e.preventDefault();
+                        if (!e.target[0].value) return;
                         createCard(e.target[0].value, e.target[1].value, e.target[2].value, e.target[3].value, e.target[4].value)
                     }}>
                         <input autoFocus name="cardName" placeholder="Card name" type="text"></input>

@@ -22,11 +22,11 @@ export function Menubar() {
 
     return(
         <>
-            <h1>Menubar</h1>
+            <div style={{height : '60px'}}></div>
             <nav className='menubar'> 
-                <a href="/boards">Boards</a> 
-                <a onClick={logOut} href="/register" className='push-right'>New Registration</a> 
-                <a onClick={logOut} href="/login">Logout</a>
+                <a href="https://vipindew.github.io/kanban/#/boards">Boards</a> 
+                <a href="https://vipindew.github.io/kanban/#/register" className='push-right'>New Registration</a> 
+                <a onClick={logOut} href="https://vipindew.github.io/kanban/#/login">Logout</a>
             </nav>
         </>
     );
