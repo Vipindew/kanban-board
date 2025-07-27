@@ -248,7 +248,7 @@ ul {
     top: calc(10% + 50px);
     width: 450px;
     color: var(--darkest);
-    height: auto;
+    height: fit-content;
     background-color: var(--white);
     z-index: 1001;
     border-radius: 20px;
@@ -423,6 +423,7 @@ ul {
     background: rgba(0, 0, 0, 0.2);
     justify-content: center;
     align-items: center;
+    overflow: auto;
 }
 
 .login-body {

@@ -38,6 +38,7 @@ function Homepage () {
     const gapY = 10;
     const widthX = 200;
     const heightY = 80;
+    const multiplyFactor = 100
     
     useEffect(() => {
         getData();
@@ -197,11 +198,13 @@ function Homepage () {
             const temp = new Date(dateTime)
             const expire_at = temp.getTime()/1000;
 
+            setDataTable(d => d.map(el => ({ ...el, cards: el.cards.map(c => c.id === id ? { ...c, name, description, color, text_color, expire_at } : c) })));
+
             const response = await axios.post(backendURL + "/card",
                 {id:id, name:name, description:description, color:color, text_color:text_color,
                     expire_at:expire_at}, {withCredentials: true});
 
-            changeDataInstant(response);
+            changeData(response);
 
         } catch(error){
             errorFunction(error);
@@ -237,10 +240,11 @@ function Homepage () {
         e.preventDefault();
         const columnName = e.target[0].value;
         if (!columnName) return;
+        setDataTable(d => d.map(element => element.id === id ? {...element, name : columnName} : element));
         closeCardPopup();
         try{
             const response = await axios.post(backendURL + "/column", {columnName:columnName, id:id}, {withCredentials : true});
-            changeDataInstant(response);
+            changeData(response);
         } catch(error){
             errorFunction(error);
         }
@@ -308,19 +312,19 @@ function Homepage () {
     function scrollRightLeft(){
         if (mousePositionX.current > (window.innerWidth - 100)) {
             const speed = Math.floor((mousePositionX.current - window.innerWidth + 100)/20);
-            window.scrollBy(speed, 0);
+            window.scrollBy(speed * multiplyFactor, 0);
         }
         else if (mousePositionX.current < 100) {
             const speed = Math.floor((100 - mousePositionX.current)/20);
-            window.scrollBy(-speed, 0);
+            window.scrollBy(-speed * multiplyFactor, 0);
         }
         if (mousePositionY.current > (window.innerHeight - 100)) {
             const speed = Math.floor((mousePositionY.current - window.innerHeight + 100)/20);
-            window.scrollBy(0, speed);
+            window.scrollBy(0, speed * multiplyFactor);
         }
         else if (mousePositionY.current < 100) {
             const speed = Math.floor((100 - mousePositionY.current)/20);
-            window.scrollBy(0, -speed);
+            window.scrollBy(0, -speed * multiplyFactor);
         }
     }
 
